@@ -9,5 +9,11 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const source = join(here, 'entry.png');
+if (!existsSync(source)) {
+  console.error('entry.png is missing from the repository root');
+  process.exit(1);
+}
 if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
-copyFileSync(join(here, 'entry.png'), join(outDir, 'entry.png'));
+copyFileSync(source, join(outDir, 'entry.png'));
+console.log(`wrote ${join(outDir, 'entry.png')}`);
